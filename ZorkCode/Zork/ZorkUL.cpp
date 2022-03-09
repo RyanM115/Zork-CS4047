@@ -14,27 +14,36 @@ ZorkUL::ZorkUL() {
 }
 
 void ZorkUL::createRooms()  {
-    Room *a, *b, *c, *d, *e, *e1, *f, *g, *h, *i, *j, *k, *l, *m;
+    Room *a, *b, *c, *d, *e, *e1, *f, *g, *h, *i, *j, *k, *l, *m, *o;
 
     a = new Room("Hallway");
-        a->addItem(new Item("x", 1, 11));
-        a->addItem(new Item("y", 2, 22));
     b = new Room("Bathroom");
-        b->addItem(new Item("xx", 3, 33));
-        b->addItem(new Item("yy", 4, 44));
+        b->addItem(new Item("Unknown Pills", 3, 33));
     c = new Room("Sitting Room");
+        c->addItem(new Item("TV Remote", 1, 22));
+        c->addItem(new Item("Glass of Wine", 3, 33));
+        c->addItem(new Item("Empty Glass", 3, 33));
     d = new Room("Front Door");
     e = new Room("Office");
-    e1 = new Room("e1");
+        e->addItem(new Item("Pen", 1, 10));
+    e1 = new Room("Unknown");
     f = new Room("Kitchen");
+        b->addItem(new Item("Knife", 4, 33));
     g = new Room("Utility");
+        g->addItem(new Item("Screwdriver", 3, 33));
     h = new Room("Garden");
+        h->addItem(new Item("Glass of Wine", 3, 33));
+        h->addItem(new Item("Empty Glass", 3, 33));
+        h->addItem(new Item("Empty Glass", 3, 33));
     i = new Room("Driveway");
 
     j = new Room("Upstairs Hallway");
     k = new Room("Bedroom");
     l = new Room("Bathroom");
     m = new Room("Master Bedroom");
+    o = new Room("Shed");
+        o->addItem(new Item("Shovel", 10, 33));
+        o->addItem(new Item("Axe", 10, 33));
 
 //             (N, E, S, W)
     a->setExits(f, b, d, c);
@@ -45,15 +54,16 @@ void ZorkUL::createRooms()  {
     e1->setExits(NULL, NULL, NULL, e);
     f->setExits(NULL, g, a, h);
     g->setExits(NULL, NULL, b, f);
-    h->setExits(NULL, f, c, NULL);
+    h->setExits(o, f, c, NULL);
     i->setExits(d, NULL, NULL, NULL);
 
     j->setExits(k, l, m, NULL);
     k->setExits(NULL, NULL, j, NULL);
     l->setExits(NULL, NULL, NULL, j);
     m->setExits(NULL, NULL, NULL, j);
+    o->setExits(NULL, NULL, h, NULL);
 
-        currentRoom = d;
+        currentRoom = i;
 }
 
 /**
@@ -80,8 +90,14 @@ void ZorkUL::play() {
 }
 
 void ZorkUL::printWelcome() {
-	cout << "start"<< endl;
-	cout << "info for help"<< endl;
+    cout << "Welcome to the simulation agent 47. Your objectives are as follows:"<< endl;
+    cout << "Find the Target and Find the Package."<< endl;
+    cout << "The target is said to be wandering aound the party whilst"<< endl;
+    cout << "the package is hidden somewhere in the house."<< endl;
+    cout << "You could not bring weapons into the party so you might want to improvise."<< endl;
+    cout << "When the misssion is complete, come back outside."<< endl;
+    cout << "Good Luck"<< endl;
+    cout << "'info' for help"<< endl;
 	cout << endl;
 	cout << currentRoom->longDescription() << endl;
 }
@@ -103,13 +119,16 @@ bool ZorkUL::processCommand(Command command) {
 
 	else if (commandWord.compare("map") == 0)
 		{
+        cout << "       [Shed] " << endl;
+        cout << "         | " << endl;
+        cout << "         | " << endl;
         cout << "      [Garden] ---- [Kitchen] --- [Utility]                            [Bedroom] " << endl;
         cout << "         |              |             |                                    | " << endl;
         cout << "         |              |             |                                    | " << endl;
         cout << "[Sitting Room] ---- [Hallway] --- [Bathroom]                      [Upstairs Hallway] --- [Bathroom] " << endl;
         cout << "                        |                                                  | " << endl;
         cout << "                        |                                                  | " << endl;
-        cout << "                  [Front Door] ----- [Office] --- [e1]                      ---- [Master Bedroom] " << endl;
+        cout << "                  [Front Door] ----- [Office] --- [Unknown]                  ---- [Master Bedroom] " << endl;
         cout << "                        | " << endl;
         cout << "                        | " << endl;
         cout << "                   [Driveway] " << endl;
