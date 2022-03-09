@@ -14,36 +14,46 @@ ZorkUL::ZorkUL() {
 }
 
 void ZorkUL::createRooms()  {
-    Room *a, *b, *c, *d, *e, *e1, *f, *g, *h, *i;
+    Room *a, *b, *c, *d, *e, *e1, *f, *g, *h, *i, *j, *k, *l, *m;
 
-	a = new Room("a");
+    a = new Room("Hallway");
         a->addItem(new Item("x", 1, 11));
         a->addItem(new Item("y", 2, 22));
-	b = new Room("b");
+    b = new Room("Bathroom");
         b->addItem(new Item("xx", 3, 33));
         b->addItem(new Item("yy", 4, 44));
-	c = new Room("c");
-	d = new Room("d");
-	e = new Room("e");
+    c = new Room("Sitting Room");
+    d = new Room("Front Door");
+    e = new Room("Office");
     e1 = new Room("e1");
-	f = new Room("f");
-	g = new Room("g");
-	h = new Room("h");
-	i = new Room("i");
+    f = new Room("Kitchen");
+    g = new Room("Utility");
+    h = new Room("Garden");
+    i = new Room("Driveway");
+
+    j = new Room("Upstairs Hallway");
+    k = new Room("Bedroom");
+    l = new Room("Bathroom");
+    m = new Room("Master Bedroom");
 
 //             (N, E, S, W)
-	a->setExits(f, b, d, c);
-	b->setExits(NULL, NULL, NULL, a);
-	c->setExits(NULL, a, NULL, NULL);
-	d->setExits(a, e, NULL, i);
+    a->setExits(f, b, d, c);
+    b->setExits(g, NULL, NULL, a);
+    c->setExits(h, a, NULL, NULL);
+    d->setExits(a, e, i, NULL);
     e->setExits(NULL, e1, NULL, d);
     e1->setExits(NULL, NULL, NULL, e);
-	f->setExits(NULL, g, a, h);
-	g->setExits(NULL, NULL, NULL, f);
-	h->setExits(NULL, f, NULL, NULL);
-    i->setExits(NULL, d, NULL, NULL);
+    f->setExits(NULL, g, a, h);
+    g->setExits(NULL, NULL, b, f);
+    h->setExits(NULL, f, c, NULL);
+    i->setExits(d, NULL, NULL, NULL);
 
-        currentRoom = a;
+    j->setExits(k, l, m, NULL);
+    k->setExits(NULL, NULL, j, NULL);
+    l->setExits(NULL, NULL, NULL, j);
+    m->setExits(NULL, NULL, NULL, j);
+
+        currentRoom = d;
 }
 
 /**
@@ -93,13 +103,17 @@ bool ZorkUL::processCommand(Command command) {
 
 	else if (commandWord.compare("map") == 0)
 		{
-        cout << "[h] --- [f] --- [g]" << endl;
-		cout << "         |         " << endl;
-        cout << "         |         " << endl;
-		cout << "[c] --- [a] --- [b]" << endl;
-		cout << "         |         " << endl;
-		cout << "         |         " << endl;
-        cout << "[i] --- [d] --- [e] --- [e1]" << endl;
+        cout << "      [Garden] ---- [Kitchen] --- [Utility]                            [Bedroom] " << endl;
+        cout << "         |              |             |                                    | " << endl;
+        cout << "         |              |             |                                    | " << endl;
+        cout << "[Sitting Room] ---- [Hallway] --- [Bathroom]                      [Upstairs Hallway] --- [Bathroom] " << endl;
+        cout << "                        |                                                  | " << endl;
+        cout << "                        |                                                  | " << endl;
+        cout << "                  [Front Door] ----- [Office] --- [e1]                      ---- [Master Bedroom] " << endl;
+        cout << "                        | " << endl;
+        cout << "                        | " << endl;
+        cout << "                   [Driveway] " << endl;
+
 		}
 
 	else if (commandWord.compare("go") == 0)
