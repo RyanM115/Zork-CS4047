@@ -28,7 +28,7 @@ void ZorkUL::createRooms()  {
         e->addItem(new Item("Pen", 1, 10));
     e1 = new Room("Unknown");
     f = new Room("Kitchen");
-        b->addItem(new Item("Knife", 4, 33));
+        f->addItem(new Item("Knife", 4, 33));
     g = new Room("Utility");
         g->addItem(new Item("Screwdriver", 3, 33));
     h = new Room("Garden");
@@ -119,7 +119,10 @@ bool ZorkUL::processCommand(Command command) {
 
 	else if (commandWord.compare("map") == 0)
 		{
-        cout << "       [Shed] " << endl;
+        cout << "                                          Morrissey Manor " << endl;
+        cout << "                   Downstairs                                          Upstairs" << endl;
+        cout << " " << endl;
+        cout << "      [Shed] " << endl;
         cout << "         | " << endl;
         cout << "         | " << endl;
         cout << "      [Garden] ---- [Kitchen] --- [Utility]                            [Bedroom] " << endl;
@@ -136,7 +139,7 @@ bool ZorkUL::processCommand(Command command) {
 		}
 
 	else if (commandWord.compare("go") == 0)
-		goRoom(command);
+        goRoom(command);
 
     else if (commandWord.compare("take") == 0)
     {
