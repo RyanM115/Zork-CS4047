@@ -3,65 +3,109 @@
 using namespace std;
 #include "ZorkUL.h"
 
-int main(int argc, char argv[]) {
-	ZorkUL temp;
-	temp.play();
-	return 0;
+int main(int argc, char *argv[]) {
+    ZorkUL temp;
+    temp.play();
+    return 0;
 }
 
 ZorkUL::ZorkUL() {
-	createRooms();
+    createRooms();
 }
 
 void ZorkUL::createRooms()  {
     Room *a, *b, *c, *d, *e, *e1, *f, *g, *h, *i, *j, *k, *l, *m, *o;
 
-    a = new Room("Hallway");
-    b = new Room("Bathroom");
+    a = new Room("Downstairs Hallway."
+                 " This is quite a large hallway with a wide, wooden, "
+                 " helix stairs ahead."
+                 " To the east, a bathroom with the door ajar."
+                 " West, a crowded sitting room.");
+    b = new Room("Bathroom."
+                 " You are greeted by the groaning of a drunk man "
+                 " folded into the corner of the bathroom."
+                 " Nothing else here other than some pills on the locker.");
         b->addItem(new Item("Unknown Pills", 3, 33));
-    c = new Room("Sitting Room");
+    c = new Room("Sitting Room."
+                 " This room is quite busy. There must be 50 people in here. "
+                 " There is a large gathering around one man. "
+                 " He seems to be lecturing the other guests. "
+                 " Intel suggests he is a university lecturer. Dr.Chris Exton."
+                 " Nothing else important here.");
         c->addItem(new Item("TV Remote", 1, 22));
         c->addItem(new Item("Glass of Wine", 3, 33));
         c->addItem(new Item("Empty Glass", 3, 33));
-    d = new Room("Front Door");
-    e = new Room("Office");
+    d = new Room("Front Door."
+                 " You're in the house. Ahead, a large hallway. "
+                 " To the east a room we believe to be an office."
+                 " The place is crowded. People are looking at you weird so get a move on.");
+    e = new Room("Office."
+                 " This must be the targets office."
+                 " He posseses many books."
+                 " A fan of history, particularly war based history."
+                 " Behind his desk, a wide, plain wall,"
+                 " approximately two foot further out than the rest of the wall."
+                 " Around the corner of said protruding wall, a keypad."
+                 " We need that code");
         e->addItem(new Item("Pen", 1, 10));
     e1 = new Room("Unknown");
-    f = new Room("Kitchen");
+    f = new Room("Kitchen."
+                 " All work in here."
+                 " Chefs and waiters walking with purpose.");
         f->addItem(new Item("Knife", 4, 33));
-    g = new Room("Utility");
+    g = new Room("Utility."
+                 " This must be the quietest room in the house."
+                 " Not a soul in here");
         g->addItem(new Item("Screwdriver", 3, 33));
-    h = new Room("Garden");
+    h = new Room("Garden."
+                 " This is where most of the guests are."
+                 " Everyone eating , drinking, sharing anecdotes"
+                 " The waiters push out as much food and drink as they can.");
         h->addItem(new Item("Glass of Wine", 3, 33));
         h->addItem(new Item("Empty Glass", 3, 33));
         h->addItem(new Item("Empty Glass", 3, 33));
-    i = new Room("Driveway");
+    i = new Room("Driveway.");
 
-    j = new Room("Upstairs Hallway");
-    k = new Room("Bedroom");
-    l = new Room("Bathroom");
-    m = new Room("Master Bedroom");
-    o = new Room("Shed");
+    j = new Room("Upstairs Hallway.");
+    k = new Room("Bedroom.");
+    l = new Room("Bathroom.");
+    m = new Room("Master Bedroom.");
+    o = new Room("Shed.");
         o->addItem(new Item("Shovel", 10, 33));
         o->addItem(new Item("Axe", 10, 33));
 
 //             (N, E, S, W)
-    a->setExits(f, b, d, c);
+    a->setExits(j, b, d, c);
     b->setExits(g, NULL, NULL, a);
     c->setExits(h, a, NULL, NULL);
     d->setExits(a, e, i, NULL);
     e->setExits(NULL, e1, NULL, d);
     e1->setExits(NULL, NULL, NULL, e);
-    f->setExits(NULL, g, a, h);
+    f->setExits(NULL, g, NULL, h);
     g->setExits(NULL, NULL, b, f);
     h->setExits(o, f, c, NULL);
     i->setExits(d, NULL, NULL, NULL);
 
-    j->setExits(k, l, m, NULL);
-    k->setExits(NULL, NULL, j, NULL);
+    j->setExits(a, l, m, k);
+    k->setExits(NULL, j, NULL, NULL);
     l->setExits(NULL, NULL, NULL, j);
-    m->setExits(NULL, NULL, NULL, j);
+    m->setExits(j, NULL, NULL, j);
     o->setExits(NULL, NULL, h, NULL);
+
+    rooms.push_back(*a);
+    rooms.push_back(*b);
+    rooms.push_back(*c);
+    rooms.push_back(*d);
+    rooms.push_back(*e);
+    rooms.push_back(*f);
+    rooms.push_back(*g);
+    rooms.push_back(*h);
+    rooms.push_back(*i);
+    rooms.push_back(*j);
+    rooms.push_back(*k);
+    rooms.push_back(*l);
+    rooms.push_back(*m);
+    rooms.push_back(*o);
 
         currentRoom = i;
 }
@@ -70,23 +114,23 @@ void ZorkUL::createRooms()  {
  *  Main play routine.  Loops until end of play.
  */
 void ZorkUL::play() {
-	printWelcome();
+    printWelcome();
 
-	// Enter the main command loop.  Here we repeatedly read commands and
-	// execute them until the ZorkUL game is over.
+    // Enter the main command loop.  Here we repeatedly read commands and
+    // execute them until the ZorkUL game is over.
 
-	bool finished = false;
-	while (!finished) {
-		// Create pointer to command and give it a command.
-		Command* command = parser.getCommand();
-		// Pass dereferenced command and check for end of game.
-		finished = processCommand(*command);
-		// Free the memory allocated by "parser.getCommand()"
-		//   with ("return new Command(...)")
-		delete command;
-	}
-	cout << endl;
-	cout << "end" << endl;
+    bool finished = false;
+    while (!finished) {
+        // Create pointer to command and give it a command.
+        Command* command = parser.getCommand();
+        // Pass dereferenced command and check for end of game.
+        finished = processCommand(*command);
+        // Free the memory allocated by "parser.getCommand()"
+        //   with ("return new Command(...)")
+        delete command;
+    }
+    cout << endl;
+    cout << "end" << endl;
 }
 
 void ZorkUL::printWelcome() {
@@ -98,8 +142,8 @@ void ZorkUL::printWelcome() {
     cout << "When the misssion is complete, come back outside."<< endl;
     cout << "Good Luck"<< endl;
     cout << "'info' for help"<< endl;
-	cout << endl;
-	cout << currentRoom->longDescription() << endl;
+    cout << endl;
+    cout << currentRoom->longDescription() << endl;
 }
 
 /**
@@ -108,43 +152,44 @@ void ZorkUL::printWelcome() {
  * returned.
  */
 bool ZorkUL::processCommand(Command command) {
-	if (command.isUnknown()) {
-		cout << "invalid input"<< endl;
-		return false;
-	}
+    if (command.isUnknown()) {
+        cout << "invalid input"<< endl;
+        return false;
+    }
 
-	string commandWord = command.getCommandWord();
-	if (commandWord.compare("info") == 0)
-		printHelp();
+    string commandWord = command.getCommandWord();
+    if (commandWord.compare("info") == 0)
+        printHelp();
 
-	else if (commandWord.compare("map") == 0)
-		{
-        cout << "                                          Morrissey Manor " << endl;
-        cout << "                   Downstairs                                          Upstairs" << endl;
+    else if (commandWord.compare("map") == 0)
+        {
+        cout << "                                                  Morrissey Manor " << endl;
+        cout << "                        Downstairs                                                    Upstairs" << endl;
         cout << " " << endl;
         cout << "      [Shed] " << endl;
         cout << "         | " << endl;
         cout << "         | " << endl;
-        cout << "      [Garden] ---- [Kitchen] --- [Utility]                            [Bedroom] " << endl;
-        cout << "         |              |             |                                    | " << endl;
-        cout << "         |              |             |                                    | " << endl;
-        cout << "[Sitting Room] ---- [Hallway] --- [Bathroom]                      [Upstairs Hallway] --- [Bathroom] " << endl;
-        cout << "                        |                                                  | " << endl;
-        cout << "                        |                                                  | " << endl;
-        cout << "                  [Front Door] ----- [Office] --- [Unknown]                  ---- [Master Bedroom] " << endl;
-        cout << "                        | " << endl;
-        cout << "                        | " << endl;
-        cout << "                   [Driveway] " << endl;
+        cout << "      [Garden] ---- [Kitchen] -------------[Utility]                        [Upstairs Hallway] " << endl;
+        cout << "         |                                     |                                    | " << endl;
+        cout << "         |                                     |                                    | " << endl;
+        cout << "[Sitting Room] -- [Downstairs Hallway] --- [Bathroom]                  [Bedroom]---   ---- [Bathroom] " << endl;
+        cout << "                            |                                                       | " << endl;
+        cout << "                            |                                                       | " << endl;
+        cout << "                      [Front Door] ----- [Office] --- [Unknown]                       ---- [Master Bedroom] " << endl;
+        cout << "                            | " << endl;
+        cout << "                            | " << endl;
+        cout << "                       [Driveway] " << endl;
 
-		}
+        }
 
-	else if (commandWord.compare("go") == 0)
+    else if (commandWord.compare("go") == 0)
         goRoom(command);
-
+    else if (commandWord.compare("teleport") == 0)
+            teleport();
     else if (commandWord.compare("take") == 0)
     {
-       	if (!command.hasSecondWord()) {
-		cout << "incomplete input"<< endl;
+        if (!command.hasSecondWord()) {
+        cout << "incomplete input"<< endl;
         }
         else
          if (command.hasSecondWord()) {
@@ -167,7 +212,7 @@ bool ZorkUL::processCommand(Command command) {
     /*
     {
     if (!command.hasSecondWord()) {
-		cout << "incomplete input"<< endl;
+        cout << "incomplete input"<< endl;
         }
         else
             if (command.hasSecondWord()) {
@@ -177,49 +222,55 @@ bool ZorkUL::processCommand(Command command) {
     }
 */
     else if (commandWord.compare("quit") == 0) {
-		if (command.hasSecondWord())
-			cout << "overdefined input"<< endl;
-		else
-			return true; /**signal to quit*/
-	}
-	return false;
+        if (command.hasSecondWord())
+            cout << "overdefined input"<< endl;
+        else
+            return true; /**signal to quit*/
+    }
+    return false;
 }
 /** COMMANDS **/
 void ZorkUL::printHelp() {
-	cout << "valid inputs are; " << endl;
-	parser.showCommands();
+    cout << "valid inputs are; " << endl;
+    parser.showCommands();
 
+}
+
+string ZorkUL::teleport() {
+    currentRoom = &rooms.at((int) rand() % rooms.size());
+        cout << currentRoom->longDescription() << endl;
+        return "Teleportation Successfull";
 }
 
 void ZorkUL::goRoom(Command command) {
-	if (!command.hasSecondWord()) {
-		cout << "incomplete input"<< endl;
-		return;
-	}
+    if (!command.hasSecondWord()) {
+        cout << "incomplete input"<< endl;
+        return;
+    }
 
-	string direction = command.getSecondWord();
+    string direction = command.getSecondWord();
 
-	// Try to leave current room.
-	Room* nextRoom = currentRoom->nextRoom(direction);
+    // Try to leave current room.
+    Room* nextRoom = currentRoom->nextRoom(direction);
 
-	if (nextRoom == NULL)
-		cout << "underdefined input"<< endl;
-	else {
-		currentRoom = nextRoom;
-		cout << currentRoom->longDescription() << endl;
-	}
+    if (nextRoom == NULL)
+        cout << "underdefined input"<< endl;
+    else {
+        currentRoom = nextRoom;
+        cout << currentRoom->longDescription() << endl;
+    }
 }
 
 string ZorkUL::go(string direction) {
-	//Make the direction lowercase
-	//transform(direction.begin(), direction.end(), direction.begin(),:: tolower);
-	//Move to the next room
-	Room* nextRoom = currentRoom->nextRoom(direction);
-	if (nextRoom == NULL)
-		return("direction null");
-	else
-	{
-		currentRoom = nextRoom;
-		return currentRoom->longDescription();
-	}
+    //Make the direction lowercase
+    //transform(direction.begin(), direction.end(), direction.begin(),:: tolower);
+    //Move to the next room
+    Room* nextRoom = currentRoom->nextRoom(direction);
+    if (nextRoom == NULL)
+        return("direction null");
+    else
+    {
+        currentRoom = nextRoom;
+        return currentRoom->longDescription();
+    }
 }
