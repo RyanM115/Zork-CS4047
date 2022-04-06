@@ -16,6 +16,7 @@ ZorkUL::ZorkUL() {
 void ZorkUL::createRooms()  {
     Room *a, *b, *c, *d, *e, *e1, *f, *g, *h, *i, *j, *k, *l, *m, *o;
 
+   //Downstairs
     a = new Room("Downstairs Hallway."
                  " This is quite a large hallway with a wide, wooden, "
                  " helix stairs ahead."
@@ -60,17 +61,30 @@ void ZorkUL::createRooms()  {
     h = new Room("Garden."
                  " This is where most of the guests are."
                  " Everyone eating , drinking, sharing anecdotes"
-                 " The waiters push out as much food and drink as they can.");
+                 " The waiters push out as much food and drink as they can."
+                 " South lies a shed");
         h->addItem(new Item("Glass of Wine", 3, 33));
         h->addItem(new Item("Empty Glass", 3, 33));
         h->addItem(new Item("Empty Glass", 3, 33));
-    i = new Room("Driveway.");
-
-    j = new Room("Upstairs Hallway.");
-    k = new Room("Bedroom.");
-    l = new Room("Bathroom.");
+    i = new Room("Driveway."
+                 " You're outside. Guests are both heading into the party and leaving it."
+                 " Cars are flooding the driveway. Head inside");
+    //Upstairs
+   j = new Room("Upstairs Hallway."
+                 " It's quiet up here. Down the hall there are bedrooms and a bathroom."
+                 " Have a look around.");
+    k = new Room("Bedroom."
+                 " Seems to be a sort of guest bedroom."
+                 " Looks like nobody has used it in a while.");
+    l = new Room("Bathroom."
+                 " There's nobody in here"
+                 " The mirror over the sink is cracked."
+                 " Theres water all over the floor"
+                 " Seems to be a drop of blood running through the water");
     m = new Room("Master Bedroom.");
-    o = new Room("Shed.");
+    o = new Room("Shed."
+                 " Typical shed, webs on every corner, creaky floors."
+                 " There's tools on the wall");
         o->addItem(new Item("Shovel", 10, 33));
         o->addItem(new Item("Axe", 10, 33));
 
