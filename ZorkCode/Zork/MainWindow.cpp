@@ -342,3 +342,14 @@ string MainWindow::go(string direction) {
         return currentRoom->longDescription();
     }
 }
+
+void MainWindow::on_pushButton_7_clicked()
+{
+        ui->textBrowser->setText("teleport");
+    }
+
+
+void MainWindow::on_pushButton_6_clicked()
+{
+    ui->textBrowser->setText("take");
+}
