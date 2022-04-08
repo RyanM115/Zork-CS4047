@@ -2,36 +2,55 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QListWidget>
-#include "ui_MainWindow.h"
-#include "ZorkUL.h"
+#include "Command.h"
+#include "Parser.h"
+#include "Room.h"
+#include "item.h"
+#include <iostream>
+#include <string>
+using namespace std;
 
-namespace Ui {
-    class MainWindow;
-}
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow{
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
-    friend class Room;
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
-private:
-    Ui::MainWindow *ui;
-    ZorkUL *zork = new ZorkUL();
-    void goRoom(string direction);
+    void play();
+    string go(string direction);
+    string teleport();
 
 private slots:
     void on_pushButton_clicked();
+
     void on_pushButton_2_clicked();
+
     void on_pushButton_3_clicked();
+
     void on_pushButton_4_clicked();
+
     void on_pushButton_5_clicked();
-    void on_pushButton_6_clicked();
+
+private:
+    Ui::MainWindow *ui;
+    Parser parser;
+    Room *currentRoom;
+    void createRooms();
+    void printWelcome();
+    bool processCommand(Command command);
+    void printHelp();
+    void goRoom(Command command);
+    void createItems();
+    void displayItems();
+    vector<Room>rooms;
 
 };
+#endif // MAINWINDOW_H
 
 
 #endif
